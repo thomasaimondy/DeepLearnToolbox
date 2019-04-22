@@ -1,0 +1,46 @@
+
+
+
+tic;
+load cnn;
+img = test_x(:,:,1);
+label = test_y(:,1);
+img_train_batch=zeros(28,28,50);
+img_test_batch = zeros(10,50);
+for ii=1:50
+    img_train_batch(:,:,ii) = img;
+    img_test_batch(:,ii) = label;
+end
+
+conf = cnntest_fool(cnn, img_train_batch, img_test_batch);
+conf
+
+% add random noise
+img_noise_new = img;
+
+
+confx = [0];
+conflist = [conf];
+while(true)
+    img_noise = img_noise_new * 0.95 + rand(28,28) * 0.05;
+    img_train_batch=zeros(28,28,50);
+    img_test_batch = zeros(10,50);
+    for ii=1:50
+        img_train_batch(:,:,ii) = img_noise;
+        img_test_batch(:,ii) = label;
+    end
+    conf_new = cnntest_fool(cnn, img_train_batch, img_test_batch);
+    
+    if conf_new>conflist(end)
+        img_noise_new = img_noise;
+        confx(end+1) = ite;
+        conflist(end+1) = conf_new;
+    else
+        continue;
+    end
+    
+    if 
+end
+save('confx.mat','confx');
+save('conflist.mat','conflist');
+toc;

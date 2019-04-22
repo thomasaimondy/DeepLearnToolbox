@@ -30,6 +30,7 @@ cnn = cnntrain(cnn, train_x, train_y, opts);
 
 [er, bad] = cnntest(cnn, test_x, test_y);
 
+save cnn;
 %plot mean squared error
 figure; plot(cnn.rL);
 assert(er<0.12, 'Too big error');
